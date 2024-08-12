@@ -1,23 +1,38 @@
-import logo from './logo.svg';
+
 import './App.css';
+import {Button} from '@mui/material';
+import Navbar from './components/Navbar';
+import {MyCard} from './components/MyCard';
+import upComingMatches  from './api/Api';
+import { useEffect, useState } from 'react';
 
 function App() {
+
+  // useEffect(()=>{
+  //   upComingMatches()
+  //     .then((data)=>console.log("DAta",data))
+  //     .catch()
+  // },[]);
+
+const[matches,setMatches] = useState([]);
+
+useEffect(()=>{
+upComingMatches()
+.then((data)=>setMatches(data.matches))
+.catch((err)=>alert("Could not load Data."))
+})
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <Navbar/>
+      <h1>Welcome to LiveScore App</h1>
+      
+     {
+      matches && matches.map((match)=>(
+        <MyCard match="match"/>
+      ))
+     }
+     {/* <MyCard/> */}
     </div>
   );
 }
